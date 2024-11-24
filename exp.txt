@@ -1,0 +1,34 @@
+ const char* face_names[2] = {"Durva","Mayuri"};
+ static int run_face_recognition(dl_matrix3du_t *image_matrix, box_array_t *net_boxes){
+    dl_matrix3du_t *aligned_face = NULL;
+    int matched_id = 0;
+
+    aligned_face = dl_matrix3du_alloc(1, FACE_WIDTH, FACE_HEIGHT, 3);
+    if(!aligned_face){
+        Serial.println("Could not allocate face recognition buffer");
+        return matched_id;
+    }
+    if (align_face(net_boxes, image_matrix, aligned_face) == ESP_OK){
+        if (is_enrolling == 1){
+            int8_t left_sample_face = enroll_face(&id_list, aligned_face);
+
+            if(left_sample_face == (ENROLL_CONFIRM_TIMES - 1)){
+                Serial.printf("Enrolling Face ID: %d\n", id_list.tail);
+            }
+            Serial.printf("Enrolling Face ID: %d sample %d\n", id_list.tail, ENROLL_CONFIRM_TIMES - left_sample_face);
+            rgb_printf(image_matrix, FACE_COLOR_CYAN, "ID[%u] Sample[%u]", id_list.tail, ENROLL_CONFIRM_TIMES - left_sample_face);
+            if (left_sample_face == 0){
+                is_enrolling = 0;
+                Serial.printf("Enrolled Face ID: %d\n", id_list.tail);
+            }
+        } else {
+            matched_id = recognize_face(&id_list, aligned_face);
+            if (matched_id >= 0) {
+                Serial.printf("Match Face ID: %u\n", matched_id);
+                rgb_printf(image_matrix, FACE_COLOR_GREEN, "Hello Praveen", matched_id);
+            } else {
+                Serial.println("No Match Found");
+                rgb_print(image_matrix, FACE_COLOR_RED, "Intruder Alert!");
+                matched_id = -1;
+            }
+        }
