@@ -1,0 +1,37 @@
+ #define BLYNK_TEMPLATE_ID "TMPL3lobq3HSr"  //Blynk 
+template ID
+ #define BLYNK_TEMPLATE_NAME "Home Control" // 
+Blynktemplate name
+ #define BLYNK_AUTH_TOKEN 
+"7QLRkwM3vY8vWQo-AEVYVoihIITVuYVs"  //Blynk 
+authentication token
+ // Include the necessary libraries
+ #define BLYNK_PRINT Serial
+ #include <ESP8266WiFi.h>
+ #include <BlynkSimpleEsp8266.h>
+ // WiFi and Blynk authentication details
+ char auth[] = BLYNK_AUTH_TOKEN; // Blynk
+ authentication toke
+ char ssid[] = "saurabh"; // WiFi name
+ char pass[] = "12345678"; // WiFi password
+ // This function is triggered when the virtual button on
+ the Blynk app (V0) is pressed
+ BLYNK_WRITE(V0) {
+ digitalWrite(LED_BUILTIN, param.asInt()); // Control 
+the built-in LED based
+ on button state (1 for ON, 0 for OFF)
+ }
+ void setup()
+ {
+ pinMode(LED_BUILTIN, OUTPUT); // Set the built-in LED 
+pin as
+ output
+ Blynk.begin(auth, ssid, pass, "blynk.cloud", 80); // 
+Connect to Blynk cloud and
+ initialize Blynk
+ }
+ void loop()
+ {
+ Blynk.run(); // Continuously run the Blynk
+ process
+ }

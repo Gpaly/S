@@ -1,0 +1,31 @@
+#define BLYNK_TEMPLATE_NAME "Saurabh"
+ #define BLYNK_AUTH_TOKEN 
+"VJcYMY8_BcV4_UfTh0DpQqFbXunUH5pX"
+ #define BLYNK_TEMPLATE_ID "TMPL36-fWaRin"
+ #define BLYNK_PRINT Serial
+ #include <ESP8266_Lib.h>
+ #include <BlynkSimpleShieldEsp8266.h>
+ // Your WiFi credentials
+ char ssid[] = "Saurabh";
+ char pass[] = "12345678";
+ // Software Serial pins
+ #include <SoftwareSerial.h>
+ SoftwareSerial EspSerial(2, 3); // RX, TX
+ // ESP8266 baud rate
+ #define ESP8266_BAUD 115200 // Change to 115200
+ ESP8266 wifi(&EspSerial);
+ void setup()
+ {
+ // Debug console
+ Serial.begin(115200);
+ // Set ESP8266 baud rate
+ EspSerial.begin(ESP8266_BAUD);
+ delay(10);
+ // Initialize Blynk
+ Blynk.begin(BLYNK_AUTH_TOKEN, wifi, ssid, pass, 
+"blynk.cloud", 80);
+}
+ void loop()
+ {
+ Blynk.run();
+ }
