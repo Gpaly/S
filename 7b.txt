@@ -1,0 +1,19 @@
+import Adafruit_DHT 
+import time 
+# Set the type of sensor 
+sensor = Adafruit_DHT.DHT11 
+print('Name :- Ganesh Shinde') 
+print('Roll No. :-31056') 
+print('PRN :- 22211034') 
+# Set the GPIO pin where the sensor is connected 
+pin = 17 
+while True: 
+# Read the humidity and temperature from the DHT11 sensor 
+humidity, temperature = Adafruit_DHT.read_retry(sensor, pin) 
+# Check if the reading was successful 
+if humidity is not None and temperature is not None: 
+print(f'Temperature: {temperature}°C, Humidity: {humidity}%') 
+else: 
+print('Failed to get reading from the sensor. Try again!') 
+# Wait for a while before the next reading 
+time.sleep(2)

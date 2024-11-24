@@ -1,0 +1,26 @@
+import RPi.GPIO as GPIO
+import time
+# Pin definitions
+led1_pin = 17 # GPIO pin for the first LED
+led2_pin = 27 # GPIO pin for the second LED
+# Setup
+GPIO.setmode(GPIO.BCM) # Use BCM pin numbering
+GPIO.setup(led1_pin, GPIO.OUT) # Set LED1 pin as output
+GPIO.setup(led2_pin, GPIO.OUT) # Set LED2 pin as output
+try:
+while True:
+# Turn on the first LED and off the second
+GPIO.output(led1_pin, GPIO.HIGH)
+GPIO.output(led2_pin, GPIO.LOW)
+time.sleep(1) # Wait for 1 second
+# Turn off the first LED and on the second
+GPIO.output(led1_pin, GPIO.LOW)
+GPIO.output(led2_pin, GPIO.HIGH)
+time.sleep(1) # Wait for 1 second
+except KeyboardInterrupt:
+pass # Exit the loop when Ctrl+C is pressed
+finally:
+# Cleanup
+GPIO.output(led1_pin, GPIO.LOW) # Ensure both LEDs are off
+GPIO.output(led2_pin, GPIO.LOW)
+GPIO.cleanup() # Reset GPIO settings
