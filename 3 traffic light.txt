@@ -1,0 +1,109 @@
+
+ #define Red_N 13
+ #define Yellow_N 12
+ #define Green_N 11
+ #define Red_E 10
+ #define Yellow_E 9
+ #define Green_E 8
+ #define Red_S 7
+ #define Yellow_S 6
+ #define Green_S 5
+ #define Red_W 4
+ #define Yellow_W 3 #define
+ Green_W 2
+ bool red1[] =
+ { true,true,true,true,true,true,true,
+ true,true,true,true,true,true,true, 
+true,true,true,true,true,true,true,
+ false,false,false,false,false,false,false
+ }; bool yellow1[] =
+ { false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,true
+ }; bool green1[] =
+ { false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false, 
+true,true,true,true,true,true,false
+ }; bool red2[] =
+ { true,true,true,true,true,true,true,
+true,true,true,true,true,true,true, 
+false,false,false,false,false,false,false,
+ true,true,true,true,true,true,true
+ }; bool yellow2[] =
+ { false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,true,
+ false,false,false,false,false,false,false
+ }; bool green2[] =
+ { false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ true,true,true,true,true,true,false, 
+false,false,false,false,false,false,false
+ }; bool red3[] =
+ { true,true,true,true,true,true,true,
+ false,false,false,false,false,false,false, 
+true,true,true,true,true,true,true,
+ true,true,true,true,true,true,true
+ }; bool yellow3[] =
+ { false,false,false,false,false,false,false,
+ false,false,false,false,false,false,true,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false
+ }; bool green3[] =
+ { false,false,false,false,false,false,false,
+ true,true,true,true,true,true,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false
+ }; bool red4[] =
+ { false,false,false,false,false,false,false,
+ true,true,true,true,true,true,true, 
+true,true,true,true,true,true,true,
+ true,true,true,true,true,true,true
+ }; bool yellow4[] =
+{ false,false,false,false,false,false,true,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false
+ }; bool green4[] =
+ { true,true,true,true,true,true,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false,
+ false,false,false,false,false,false,false
+ };
+ void setup() { Serial.begin(9600);
+ pinMode(Red_N,OUTPUT);
+ pinMode(Yellow_N,OUTPUT);
+ pinMode(Green_N,OUTPUT);
+ pinMode(Red_E,OUTPUT);
+ pinMode(Yellow_E,OUTPUT);
+ pinMode(Green_E,OUTPUT);
+ pinMode(Red_S,OUTPUT);
+ pinMode(Yellow_S,OUTPUT);
+ pinMode(Green_S,OUTPUT);
+ pinMode(Red_W,OUTPUT);
+ pinMode(Yellow_W,OUTPUT);
+ pinMode(Green_W,OUTPUT);
+ }
+ void loop() { for (int i = 0; i<28;i++)
+ { digitalWrite(Red_N, red1[i]);
+ digitalWrite(Yellow_N, yellow1[i]); 
+digitalWrite(Green_N,
+ green1[i]); Serial.print(red1[i]);
+ Serial.print(yellow1[i]); Serial.println(green1[i]);
+ digitalWrite(Red_E, red2[i]); digitalWrite(Yellow_E, 
+yellow2[i]);
+ digitalWrite(Green_E, green2[i]); Serial.print(red2[i]);
+ Serial.print(yellow2[i]); Serial.println(green2[i]);
+digitalWrite(Red_S, red3[i]); digitalWrite(Yellow_S, 
+yellow3[i]);
+ digitalWrite(Green_S, green3[i]); Serial.print(red3[i]);
+ Serial.print(yellow3[i]); Serial.println(green3[i]);
+ digitalWrite(Red_W, red4[i]); digitalWrite(Yellow_W, 
+yellow4[i]);
+ digitalWrite(Green_W, green4[i]); Serial.print(red4[i]);
+ Serial.print(yellow4[i]); Serial.println(green4[i]);
+ delay(5000);
+ }
+ }
