@@ -1,0 +1,47 @@
+HTML CODE:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Home Automation</title>
+<!-- Manually specified URL for styles.css -->
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<h1>SMART HOME AUTOMATION USING RASPBERRY PI</h1>
+<div class="image-container">
+ <img src="/static/image.png" alt="Main Image" class="main-img">
+ <div class="profile">
+ <img src="/static/yashhhhh.jpeg" alt="Profile Image" class="profile-img">
+ <div class="profile-info">
+ <p><strong>Name:</strong> Yash Dhone</p>
+ <p><strong>Roll No:</strong> 313064</p>
+ <p><strong>PRN:</strong> 22211022</p>
+ </div>
+ </div>
+ </div>
+ <div class="container">
+ <div class="status">
+ <p>STATUS OF ACTUATORS</p>
+ <p>RED LED: {{ ledRed }}</p>
+ <p>YELLOW LED: {{ ledYellow }}</p>
+ <p>GREEN LED: {{ ledGreen }}</p>
+ </div>
+<div class="controls">
+ <p>LED CONTROL</p>
+ <div class="led-control">
+ <p>RED LED CONTROL ---- <a href="/ledRed/on">TURN ON</a> <a
+href="/ledRed/off">TURN OFF</a></p>
+</div>
+<div class="led-control">
+ <p>YELLOW LED CONTROL ---- <a href="/ledYellow/on">TURN ON</a> <a
+href="/ledYellow/off">TURN OFF</a></p>
+</div>
+<div class="led-control">
+ <p>GREEN LED CONTROL ---- <a href="/ledGreen/on">TURN ON</a> <a
+href="/ledGreen/off">TURN OFF</a></p>
+</div>
+</div>
+ </body>
+ </html>

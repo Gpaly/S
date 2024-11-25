@@ -1,0 +1,97 @@
+PYTHON CODE:
+#Experiment 9 : Smart home Automation using Raspberry Pi
+#Name: Yash Dhone
+#Roll No.: 313064
+#PRN No.: 22211022
+#Batch : C3
+import RPi.GPIO as GPIO
+from flask import Flask, render_template, request
+import time
+app = Flask(__name__)
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+# Pin Definitions
+ledRed = 13
+ledYellow = 19
+ledGreen = 26
+# LED Status (1 for ON, 0 for OFF)
+ledRedSts = 0
+ledYellowSts = 0
+ledGreenSts = 0
+# Set up the GPIO pins
+GPIO.setup(ledRed, GPIO.OUT)
+GPIO.setup(ledYellow, GPIO.OUT)
+GPIO.setup(ledGreen, GPIO.OUT)
+# Initialize the LEDs to OFF
+GPIO.output(ledRed, GPIO.LOW)
+GPIO.output(ledYellow, GPIO.LOW)
+GPIO.output(ledGreen, GPIO.LOW)
+@app.route('/')
+def index():
+# Fetch the status of the LEDs
+ledRedSts = GPIO.input(ledRed)
+ledYellowSts = GPIO.input(ledYellow)
+ledGreenSts = GPIO.input(ledGreen)
+# Pass the statuses to the template
+templateData = {
+'ledRed': ledRedSts,
+'ledYellow': ledYellowSts,
+'ledGreen': ledGreenSts
+}
+return render_template('index.html', **templateData)
+@app.route('/<deviceName>/<action>')
+def do(deviceName, action):
+# Map device names to GPIO pins
+if deviceName == "ledRed":
+actuator = ledRed
+elif deviceName == "ledYellow":
+actuator = ledYellow
+elif deviceName == "ledGreen":
+actuator = ledGreen
+else:
+return "404 Not Found", 404
+# Turn the LED on or off based on the action
+if action == "on":
+GPIO.output(actuator, GPIO.HIGH)
+elif action == "off":
+GPIO.output(actuator, GPIO.LOW)
+# Update the status of all LEDs
+ledRedSts = GPIO.input(ledRed)
+ledYellowSts = GPIO.input(ledYellow)
+ledGreenSts = GPIO.input(ledGreen)
+# Pass the updated statuses to the template
+templateData = {
+'ledRed': ledRedSts,
+'ledYellow': ledYellowSts,
+'ledGreen': ledGreenSts
+}
+return render_template('index.html', **templateData)
+@app.route('/blink/<deviceName>')
+def blink(deviceName):
+# Map device names to GPIO pins for blinking
+if deviceName == "ledRed":
+actuator = ledRed
+elif deviceName == "ledYellow":
+actuator = ledYellow
+elif deviceName == "ledGreen":
+actuator = ledGreen
+else:
+return "404 Not Found", 404
+# Blink the LED: turn it on, wait for 1 second, turn it off, wait for 1 second
+for _ in range(5): # Blink 5 times
+GPIO.output(actuator, GPIO.HIGH)
+time.sleep(1)
+GPIO.output(actuator, GPIO.LOW)
+time.sleep(1)
+# After blinking, return to the main page
+ledRedSts = GPIO.input(ledRed)
+ledYellowSts = GPIO.input(ledYellow)
+ledGreenSts = GPIO.input(ledGreen)
+templateData = {
+'ledRed': ledRedSts,
+'ledYellow': ledYellowSts,
+'ledGreen': ledGreenSts
+}
+return render_template('index.html', **templateData)
+if __name__ == '__main__':
+app.run(debug=True, host='0.0.0.0')
