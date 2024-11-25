@@ -1,0 +1,61 @@
+#Name - Saurabh Shetkar
+#GR No. - 22211027
+#Roll No. - 313052
+import Adafruit_DHT # Library for DHT sensors
+import os, sys # Standard libraries (not
+used in this code)
+from time import sleep # For sleep functionality
+import requests # For making HTTP requests
+import RPi.GPIO as GPIO # Library for controlling
+GPIO pins on Raspberry Pi
+# Define the base URL for the ThingSpeak API
+baseURL =
+'https://api.thingspeak.com/update?api_key=Y3AWB5U1DV0AC
+AG5'
+SensorPin = 6 # GPIO pin number where the
+DHT sensor is connected
+# Start an infinite loop to continuously read data from
+the sensor
+while True:
+ try:
+ print("Program is Running") # Indicate the
+program is active
+
+ # Read humidity and temperature from the DHT11
+sensor
+ humi, temp =
+Adafruit_DHT.read(Adafruit_DHT.DHT11, SensorPin)
+
+ # Check if the readings are valid (greater than
+0)
+ if (humi > 0) and (temp > 0):
+ print(humi) # Print humidity value
+ print(temp) # Print temperature
+value
+ print("Data received") # Confirm that data
+is received
+
+ # Format the URL with the temperature and
+humidity data
+ x = '{}{}{}{}{}'.format(baseURL, '&field1=',
+temp, '&field2=', humi)
+
+ # Make a POST request to ThingSpeak
+ y = requests.post(x)
+
+ # Print the status code of the response
+ print(y.status_code) # Should print 200 for
+a successful request
+ print(x) # Print the full URL
+used for the POST request
+
+ sleep(5) # Wait for 5 seconds before the next
+reading
+ except Exception as e:
+ # Handle any exceptions that occur
+ print("Data not received") # Indicate that data
+was not received
+ print(e) # Print the
+exception message
+
+ sleep(5) 
