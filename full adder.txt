@@ -1,0 +1,46 @@
+module full_adder(
+    input A, B, Cin,
+    output S, Cout
+);
+    wire S1, C1, C2;
+
+    // First Half Adder
+    xor (S1, A, B);       // Sum of A and B
+    and (C1, A, B);       // Carry from A and B
+
+    // Second Half Adder
+    xor (S, S1, Cin);     // Final Sum
+    and (C2, S1, Cin);    // Carry from Sum1 and Cin
+
+    // OR gate for final carry-out
+    or (Cout, C1, C2);
+endmodule
+
+
+TEST BENCH
+
+module full_adder_nand(
+    input A, B, Cin,
+    output S, Cout
+);
+    wire X1, X2, X3, X4, X5, X6, P1, P2, P3, P4, P5;
+
+    // XOR(A, B) using NAND
+    nand (X1, A, A);        // NOT A
+    nand (X2, B, B);        // NOT B
+    nand (X3, A, X2);       // A AND NOT B
+    nand (X4, X1, B);       // NOT A AND B
+    nand (X5, X3, X4);      // A XOR B
+
+    // XOR(X5, Cin) using NAND
+    nand (X6, X5, X5);      // NOT X5
+    nand (P1, Cin, Cin);    // NOT Cin
+    nand (P2, X5, P1);      // X5 AND NOT Cin
+    nand (P3, X6, Cin);     // NOT X5 AND Cin
+    nand (S, P2, P3);       // Final Sum S
+
+    // Carry-Out (Cout) using NAND
+    nand (P4, A, B);        // A AND B
+    nand (P5, X5, Cin);     // (A XOR B) AND Cin
+    nand (Cout, P4, P5);    // Final Cout
+endmodule
