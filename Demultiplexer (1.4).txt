@@ -1,0 +1,37 @@
+module Demultiplexer(
+    input In,
+    input [1:0] Sel,
+    output [3:0] Out
+);
+    wire notSel1, notSel0;
+
+    // Create NOT gates for select lines
+    not (notSel1, Sel[1]);
+    not (notSel0, Sel[0]);
+
+    // Route input to corresponding output
+    and (Out[0], In, notSel1, notSel0);
+    and (Out[1], In, notSel1, Sel[0]);
+    and (Out[2], In, Sel[1], notSel0);
+    and (Out[3], In, Sel[1], Sel[0]);
+endmodule
+
+TEST BENCH
+
+module tb_Demultiplexer;
+    reg In;
+    reg [1:0] Sel;
+    wire [3:0] Out;
+
+    Demultiplexer uut (.In(In), .Sel(Sel), .Out(Out));
+
+    initial begin
+        $monitor("In=%b Sel=%b | Out=%b", In, Sel, Out);
+        In = 1; Sel = 2'b00; #10; // Route to Out[0]
+        Sel = 2'b01; #10; // Route to Out[1]
+        Sel = 2'b10; #10; // Route to Out[2]
+        Sel = 2'b11; #10; // Route to Out[3]
+        In = 0; Sel = 2'b01; #10; // Test zero input
+        $finish;
+    end
+endmodule

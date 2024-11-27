@@ -1,0 +1,39 @@
+module ALU(
+    input [3:0] A, B,  // 4-bit input operands
+    input [1:0] Op,    // 2-bit control signal
+    output reg [3:0] Result, // 4-bit output
+    output reg CarryOut
+);
+    always @(*) begin
+        CarryOut = 0; // Default CarryOut
+        case (Op)
+            2'b00: {CarryOut, Result} = A + B;  // Addition
+            2'b01: {CarryOut, Result} = A - B;  // Subtraction
+            2'b10: Result = A & B;             // AND
+            2'b11: Result = A | B;             // OR
+            default: Result = 4'b0000;         // Default case
+        endcase
+    end
+endmodule
+
+TEST BENCH
+
+module tb_ALU;
+    reg [3:0] A, B;
+    reg [1:0] Op;
+    wire [3:0] Result;
+    wire CarryOut;
+
+    ALU uut (.A(A), .B(B), .Op(Op), .Result(Result), .CarryOut(CarryOut));
+
+    initial begin
+        $monitor("A=%b B=%b Op=%b | Result=%b CarryOut=%b", A, B, Op, Result, CarryOut);
+
+        A = 4'b0101; B = 4'b0011; Op = 2'b00; #10; // Test addition
+        A = 4'b0101; B = 4'b0011; Op = 2'b01; #10; // Test subtraction
+        A = 4'b1100; B = 4'b1010; Op = 2'b10; #10; // Test AND
+        A = 4'b1100; B = 4'b1010; Op = 2'b11; #10; // Test OR
+
+        $finish;
+    end
+endmodule

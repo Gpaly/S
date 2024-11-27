@@ -1,0 +1,35 @@
+module Multiplexer(
+    input [3:0] D, // Data inputs
+    input [1:0] Sel, // Select lines
+    output Y
+);
+    wire w0, w1, w2, w3;
+
+    // Select individual data lines based on select bits
+    and (w0, D[0], ~Sel[1], ~Sel[0]);
+    and (w1, D[1], ~Sel[1], Sel[0]);
+    and (w2, D[2], Sel[1], ~Sel[0]);
+    and (w3, D[3], Sel[1], Sel[0]);
+
+    // Combine outputs
+    or (Y, w0, w1, w2, w3);
+endmodule
+
+TEST BENCH
+
+module tb_Multiplexer;
+    reg [3:0] D;
+    reg [1:0] Sel;
+    wire Y;
+
+    Multiplexer uut (.D(D), .Sel(Sel), .Y(Y));
+
+    initial begin
+        $monitor("D=%b Sel=%b | Y=%b", D, Sel, Y);
+        D = 4'b1101; Sel = 2'b00; #10; // Select D[0]
+        Sel = 2'b01; #10; // Select D[1]
+        Sel = 2'b10; #10; // Select D[2]
+        Sel = 2'b11; #10; // Select D[3]
+        $finish;
+    end
+endmodule
